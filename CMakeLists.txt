@@ -17,6 +17,12 @@ FetchContent_Declare(
   GIT_TAG        9cf9f38eded63e5e0fb95cd536ba51be601d7fa2)
 FetchContent_MakeAvailable(fmt)
 
+# Link options 
+set(LINK fmt::fmt)
+if(OpenMP_CXX_FOUND)
+    set(LINK ${LINK} OpenMP::OpenMP_CXX)
+endif()
+
 # Maximum Compiler Warnings
 include(CompilerWarnings.cmake)
 waddoups_set_project_warnings()
@@ -34,9 +40,6 @@ set(OPTS -DNDEBUG -O3)
 
 # Command line interface application
 add_executable(cli cli.cpp ${SRCS})
-target_link_libraries(cli fmt::fmt)
+target_link_libraries(cli ${LINK})
 target_compile_options(cli PRIVATE ${OPTS})
-if(OpenMP_CXX_FOUND)
-    target_link_libraries(cli PUBLIC OpenMP::OpenMP_CXX)
-endif()
 

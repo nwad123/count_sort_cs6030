@@ -5,7 +5,8 @@
 void count_sort_reference(int a[], int n)
 {
     int i, j, count;
-    int *temp = (int *)::malloc(n * sizeof(int));
+    auto n_ul = static_cast<size_t>(n);
+    auto temp = static_cast<int *>(::malloc(n_ul * sizeof(int)));
 
     for (i = 0; i < n; i++) {
         count = 0;
@@ -17,6 +18,6 @@ void count_sort_reference(int a[], int n)
         temp[count] = a[i];
     }
 
-    ::memcpy(a, temp, n * sizeof(int));
+    ::memcpy(a, temp, n_ul * sizeof(int));
     free(temp);
 }

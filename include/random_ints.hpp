@@ -8,6 +8,8 @@
 #include <random>
 #include <vector>
 
+/// Wrapper class around ::rand() from `cstdlib` so that we can use 
+/// std::shuffle with ::rand()
 struct Rand
 {
     using utype = uint32_t;
@@ -22,6 +24,7 @@ struct Rand
 };
 static_assert(std::uniform_random_bit_generator<Rand>);
 
+/// Returns a vector of ints ranging from 1 to `size` that are randomly shuffled
 template<size_t SEED = 100>
 [[nodiscard]]
 auto random_ints(const size_t size) -> std::vector<int>

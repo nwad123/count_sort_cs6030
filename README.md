@@ -28,3 +28,25 @@ to parallelize the sort.
 Build the code with `make` on Unix like systems with CMake, OpenMP, and a modern 
 C++20 compliant compiler. The command line application is located at "./build/cli".
 
+## Answers To Questions 
+
+1. `count` and `j` should be marked as `private` as they are local to each loop. In my
+   code we get around this issue by just using local variables inside the loop. `temp`
+   and `a` will need to be `shared`, as every thread should be able to access them.
+2. If `memcpy()` is not parallelizable I would write my own simple implementation of
+   `memcpy()` that is parallelizable. Here's a rough draft of what it would look like:
+
+   ```cpp
+   // thread safe memcpy
+   void memcpy_ts(/*out*/ void *dest, /*in*/ const void *src, /*in*/ const size_t num_bytes)
+   {
+       using byte = uint8_t;
+       byte *dest_b = (byte*)dest;
+       const byte *src_b = (const byte*)src;
+
+       for (size_t i = 0; i < num_bytes; i++)
+       {
+           dest_b[i] = src_b[i];
+       }
+   }
+   ```

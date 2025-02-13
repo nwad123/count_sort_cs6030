@@ -1,4 +1,5 @@
 #include "count_sort.hpp"
+#include "fmt/base.h"
 #include <ranges>
 #ifdef _OPENMP
 #include <omp.h>
@@ -31,15 +32,16 @@ auto count_sort(std::span<int> a, const size_t num_threads) -> void
         for (const auto i : iota(size_t{ 0 }, num_threads)) {
             if (a.size() < num_threads) { continue; }
 
+            const auto length_hint = a.size() / num_threads;
+            const auto start_index = i * length_hint;
             const auto length = [&]() {
                 const auto last_thread_id = num_threads - 1;
                 if (i == last_thread_id) {
                     return std::dynamic_extent;
                 } else {
-                    return a.size() / num_threads;
+                    return length_hint;
                 }
             }();
-            const auto start_index = i * length;
 
             const auto copy_from = std::span{ temp }.subspan(start_index, length);
             auto copy_to = a.subspan(start_index, length);

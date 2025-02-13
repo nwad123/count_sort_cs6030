@@ -1,20 +1,9 @@
+#include "count_sort.hpp"
+#include "count_sort_reference.hpp"
 #include "random_ints.hpp"
 #include <fmt/core.h>
-#include <iostream>
+#include <fmt/ranges.h>
 #include <string>
-#include <type_traits>
-
-[[nodiscard]]
-auto print_range(auto &&range)
-    requires std::ranges::input_range<std::decay_t<decltype(range)>>
-{
-    std::string sep = "[";
-    for (const auto &x : range) {
-        std::cout << sep << x;
-        sep = ", ";
-    }
-    std::cout << "]\n";
-};
 
 auto main(int argc, char **argv) -> int
 {
@@ -27,5 +16,15 @@ auto main(int argc, char **argv) -> int
     auto num_ints = std::stoul(argv[2]);
 
     auto ints = random_ints(num_ints);
-    print_range(ints);
+
+    fmt::println("Original range:   {}", ints);
+
+    // create a copy to test the two implementations
+    auto ints_2 = ints;
+
+    count_sort_reference(ints.data(), static_cast<int>(num_ints));
+    count_sort(ints_2, num_threads);
+
+    fmt::println("Reference sorted: {}", ints);
+    fmt::println("Parallel sorted:  {}", ints_2);
 }

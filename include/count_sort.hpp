@@ -8,4 +8,4 @@
 /// `num_threads` Is the number of threads to use
 ///
 /// Count sort uses O(n) storage and sorts the input `a` in place.
-auto count_sort_cpp(/*inout*/ std::span<int> a, /*in*/ const size_t num_threads) -> void;
+auto count_sort(/*inout*/ std::span<int> a, /*in*/ const size_t num_threads) -> void;

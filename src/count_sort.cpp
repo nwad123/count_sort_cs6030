@@ -1,6 +1,8 @@
 #include "count_sort.hpp"
-
 #include <ranges>
+#ifdef _OPENMP 
+#include <omp.h>
+#endif
 
 auto count_sort_cpp_(std::span<int> a, const size_t num_threads) -> void
 {

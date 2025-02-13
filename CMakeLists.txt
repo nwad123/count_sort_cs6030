@@ -10,12 +10,12 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(OpenMP)
 
 # Fmt Lib
-# include(FetchContent)
-# FetchContent_Declare(
-#   fmt
-#   GIT_REPOSITORY https://github.com/fmtlib/fmt
-#   GIT_TAG        9cf9f38eded63e5e0fb95cd536ba51be601d7fa2)
-# FetchContent_MakeAvailable(fmt)
+include(FetchContent)
+FetchContent_Declare(
+  fmt
+  GIT_REPOSITORY https://github.com/fmtlib/fmt
+  GIT_TAG        9cf9f38eded63e5e0fb95cd536ba51be601d7fa2)
+FetchContent_MakeAvailable(fmt)
 
 # Maximum Compiler Warnings
 include(CompilerWarnings.cmake)
@@ -34,7 +34,7 @@ set(OPTS -DNDEBUG -O3)
 
 # Command line interface application
 add_executable(cli cli.cpp ${SRCS})
-# target_link_libraries(cli fmt::fmt)
+target_link_libraries(cli fmt::fmt)
 target_compile_options(cli PRIVATE ${OPTS})
 if(OpenMP_CXX_FOUND)
     target_link_libraries(cli PUBLIC OpenMP::OpenMP_CXX)
